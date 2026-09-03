@@ -3,9 +3,11 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-if ('serviceWorker' in navigator) {
+const isNativeApp = () => Boolean((window as any)?.Capacitor?.isNativePlatform?.());
+
+if ('serviceWorker' in navigator && !isNativeApp()) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(err => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
       console.log('ServiceWorker registration failed: ', err);
     });
   });

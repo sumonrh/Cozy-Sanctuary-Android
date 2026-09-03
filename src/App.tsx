@@ -259,8 +259,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(err => console.error('SW registration failed:', err));
+    const isNative = Boolean((window as any)?.Capacitor?.isNativePlatform?.());
+    if ('serviceWorker' in navigator && !isNative) {
+      navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW registration failed:', err));
     }
   }, []);
 
